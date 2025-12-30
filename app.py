@@ -4,15 +4,12 @@ import time
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
-# ---------------- PAGE ----------------
 st.set_page_config(
     page_title="Movie Recommendation System",
     page_icon="🎬",
     layout="wide"
 )
 
-# ---------------- CUSTOM CSS ----------------
 st.markdown("""
 <style>
 .stApp {
@@ -82,25 +79,20 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- LOAD DATA ----------------
+#  LOAD The DATA 
 movies = pickle.load(open("movies.pkl", "rb"))
 
-# 👉 similarity ab yahin ban rahi hai (NO similarity.pkl)
 cv = CountVectorizer(max_features=5000, stop_words='english')
 vectors = cv.fit_transform(movies['tags']).toarray()
 similarity = cosine_similarity(vectors)
 
-# ---------------- TITLE ----------------
 st.markdown('<div class="main-title">🎬 Movie Recommendation System</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Smart movie recommendations</div>', unsafe_allow_html=True)
 
-# ---------------- SELECT MOVIE ----------------
 selected_movie = st.selectbox(
-    "🎥 Select a movie",
+    " Select a movie",
     movies['title'].values
 )
-
-# ---------------- RECOMMEND FUNCTION ----------------
 def recommend(movie):
     index = movies[movies['title'] == movie].index[0]
     distances = similarity[index]
@@ -113,7 +105,6 @@ def recommend(movie):
 
     return [movies.iloc[i[0]].title for i in movie_list]
 
-# ---------------- BUTTON ----------------
 if st.button("✨ Recommend Movies"):
     with st.spinner("Finding best recommendations..."):
         time.sleep(1.5)
