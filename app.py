@@ -86,7 +86,7 @@ cv = CountVectorizer(max_features=5000, stop_words='english')
 vectors = cv.fit_transform(movies['tags']).toarray()
 similarity = cosine_similarity(vectors)
 
-st.markdown('<div class="main-title">🎬 Movie Recommendation System</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">Movie Recommendation System</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Smart movie recommendations</div>', unsafe_allow_html=True)
 
 selected_movie = st.selectbox(
@@ -112,7 +112,7 @@ if st.button("✨ Recommend Movies"):
 
     st.markdown("""
     <div class="highlight-box">
-        <h2 style="color:#ecfdf5; text-align:center;">🍿 Recommended Movies</h2>
+        <h2 style="color:#ecfdf5; text-align:center;">Recommended Movies</h2>
     </div>
     """, unsafe_allow_html=True)
 
