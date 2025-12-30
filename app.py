@@ -73,7 +73,7 @@ st.markdown("""
     width: 100%;
 }
 .stButton>button:hover {
-    background: linear-gradient(135deg, #16a34a, #15803d);
+    background: linear-gradient(#000000,#16a34a,#15803d);
     transform: scale(1.05);
 }
 </style>
@@ -105,7 +105,7 @@ def recommend(movie):
 
     return [movies.iloc[i[0]].title for i in movie_list]
 
-if st.button("✨ Recommend Movies"):
+if st.button("Recommend Movies"):
     with st.spinner("Finding best recommendations..."):
         time.sleep(1.5)
         recommendations = recommend(selected_movie)
