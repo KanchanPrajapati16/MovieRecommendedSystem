@@ -2,6 +2,9 @@ import streamlit as st
 import pickle
 import time
 
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 # ---------------- PAGE ----------------
 st.set_page_config(
     page_title="Movie Recommendation System",
@@ -15,21 +18,16 @@ st.markdown("""
 .stApp {
     background: linear-gradient(135deg, #064e3b, #022c22);
 }
-
-/* TITLE */
 .main-title {
     font-size: 42px;
     font-weight: 800;
     color: #ecfdf5;
 }
-
 .subtitle {
     color: #a7f3d0;
     font-size: 18px;
     margin-bottom: 30px;
 }
-
-/* HIGHLIGHT BOX */
 .highlight-box {
     background: rgba(6, 78, 59, 0.85);
     border: 2px solid #34d399;
@@ -38,8 +36,6 @@ st.markdown("""
     box-shadow: 0 0 30px rgba(52, 211, 153, 0.6);
     margin-top: 25px;
 }
-
-/* MOVIE CARD */
 .card {
     background: #022c22;
     padding: 20px;
@@ -48,13 +44,10 @@ st.markdown("""
     transition: 0.3s;
     border: 1px solid #34d399;
 }
-
 .card:hover {
     transform: scale(1.07);
     box-shadow: 0px 10px 30px rgba(52, 211, 153, 0.8);
 }
-
-/* FAKE POSTER */
 .fake-poster {
     height: 220px;
     border-radius: 12px;
@@ -68,13 +61,10 @@ st.markdown("""
     animation: shimmer 1.4s infinite;
     margin-bottom: 15px;
 }
-
 @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
 }
-
-/* BUTTON */
 .stButton>button {
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
@@ -85,24 +75,20 @@ st.markdown("""
     font-weight: bold;
     width: 100%;
 }
-
 .stButton>button:hover {
     background: linear-gradient(135deg, #16a34a, #15803d);
     transform: scale(1.05);
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-    .main-title { font-size: 30px; text-align: center; }
-    .subtitle { font-size: 15px; text-align: center; }
-    .fake-poster { height: 180px; }
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ---------------- LOAD DATA ----------------
 movies = pickle.load(open("movies.pkl", "rb"))
-similarity = pickle.load(open("similarity.pkl", "rb"))
+
+# 👉 similarity ab yahin ban rahi hai (NO similarity.pkl)
+cv = CountVectorizer(max_features=5000, stop_words='english')
+vectors = cv.fit_transform(movies['tags']).toarray()
+similarity = cosine_similarity(vectors)
 
 # ---------------- TITLE ----------------
 st.markdown('<div class="main-title">🎬 Movie Recommendation System</div>', unsafe_allow_html=True)
@@ -140,7 +126,6 @@ if st.button("✨ Recommend Movies"):
     """, unsafe_allow_html=True)
 
     cols = st.columns(5)
-
     for col, movie_name in zip(cols, recommendations):
         with col:
             st.markdown(f"""
