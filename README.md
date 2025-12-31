@@ -1,7 +1,3 @@
-**Movie Recommendation System**
-
-A content-based Movie Recommendation System built using Machine Learning and Streamlit.
-This project recommends movies based on similarity of content using natural language processing techniques and provides an interactive, user-friendly web interface.
 
 **Movie Recommendation System**
 
